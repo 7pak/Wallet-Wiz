@@ -36,7 +36,8 @@ This wallet tracker app leverages a range of modern technologies to deliver a ro
 
 To use the WalletWhiz app,
 you can download it from the following link: 
-[WalletWhiz apk](https://www.mediafire.com/file/7gqvp1j3sir66tg/wallet-whiz.apk/file)
+[WalletWhiz apk](https://www.mediafire.com/file/trk331bqx2ew8va/wallet-wiz.apk/file)
+
 
 ## Upcoming implementations
 
