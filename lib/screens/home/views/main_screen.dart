@@ -11,20 +11,22 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           children: [
-             homeAppBar(context),
-            const SizedBox(
+             HomeAppBar(),
+            SizedBox(
               height: 20,
             ),
-            const WalletCard(),
-            const SizedBox(
+            WalletCard(),
+            SizedBox(
+
               height: 20,
             ),
-             const TransactionsList()
+
+             TransactionsList()
           ],
         ),
       ),

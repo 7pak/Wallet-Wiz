@@ -127,7 +127,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
                       child: Text(
                         'Welcome back!',
                         style: TextStyle(
-                            color: Colors.grey.shade400,
+                            color: Colors.grey.shade300,
                             fontSize: 26,
                             fontWeight: FontWeight.bold),
                       ),

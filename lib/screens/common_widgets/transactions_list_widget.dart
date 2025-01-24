@@ -29,63 +29,100 @@ class TransactionsList extends StatelessWidget {
   Widget _transactionItem(dynamic transaction) {
     final bool isExpense = transaction is Expense;
     final int amount = isExpense ? transaction.amount : transaction.amount;
-    final String name =
-        isExpense ? transaction.category.name : transaction.name;
+    final String name = isExpense ? transaction.category.name : transaction.name;
     final int color = isExpense ? transaction.category.color : 0xFFFFFFFF;
     final String icon = isExpense ? transaction.category.icon : "income.png";
 
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Row(
           children: [
-            Stack(alignment: Alignment.center, children: [
-              Container(
-                height: 50,
-                width: 50,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Color(color)),
+            // Category Icon with Gradient Background
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(color).withOpacity(0.7),
+                    Color(color),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(color).withOpacity(0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              Image.asset(
-                'assets/images/$icon',
-                color: isExpense
-                    ? (Color(color).computeLuminance() > 0.5
-                        ? Colors.black
-                        : Colors.white)
-                    : null,
-                scale: 1.5,
-                width: 40,
-                height: 40,
-              )
-            ]),
-            const SizedBox(
-              width: 10,
+              child: Center(
+                child: Image.asset(
+                  'assets/images/$icon',
+                  color: isExpense
+                      ? (Color(color).computeLuminance() > 0.5
+                      ? Colors.black
+                      : Colors.white)
+                      : null,
+                  width: 30,
+                  height: 30,
+                ),
+              ),
             ),
-            Text(
-              name,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              overflow: TextOverflow.ellipsis,
+            const SizedBox(width: 15),
+
+            // Transaction Name
+            Expanded(
+              child: Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-            const Spacer(),
+            const SizedBox(width: 10),
+
+            // Amount and Date
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   '${isExpense ? '-' : '+'} \$$amount',
                   style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: isExpense ? Colors.red : Colors.green),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: isExpense ? Colors.redAccent : Colors.green,
+                  ),
                 ),
+                const SizedBox(height: 4),
                 Text(
                   _formatDate(transaction.date),
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[600],
+                  ),
                 )
               ],
             )
@@ -112,48 +149,69 @@ class TransactionsList extends StatelessWidget {
 
               return Expanded(
                 child: BlocBuilder<NavigationCubit, NavigationState>(
-                    builder: (context, state) {
-                  if (state.selectedIndex == 0) {
-                    if (items.length > 4) {
-                      items = items.sublist(0, 4);
+                  builder: (context, state) {
+                    if (state.selectedIndex == 0) {
+                      if (items.length > 4) {
+                        items = items.sublist(0, 4);
+                      }
                     }
-                  }
 
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (state.selectedIndex == 0)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Transactions',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
-                            TextButton(
-                                onPressed: () {
-                                  context
-                                      .read<NavigationCubit>()
-                                      .setSelectedIndex(1);
-                                },
-                                child: const Text('View all',
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (state.selectedIndex == 0)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Recent Transactions',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context
+                                        .read<NavigationCubit>()
+                                        .setSelectedIndex(1);
+                                  },
+                                  child: const Text(
+                                    'View All',
                                     style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)))
-                          ],
-                        ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          itemBuilder: (context, int i) {
-                            return _transactionItem(items[i]);
-                          },
-                        ),
-                      )
-                    ],
-                  );
-                }),
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        Expanded(
+                          child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            itemCount: items.length,
+                            itemBuilder: (context, int i) {
+                              return _transactionItem(items[i]);
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
               );
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              );
             }
           },
         );

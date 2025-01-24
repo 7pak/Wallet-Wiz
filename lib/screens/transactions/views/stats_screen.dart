@@ -7,13 +7,13 @@ class TransactionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Stats',
               style: TextStyle(
                   fontSize: 22,
@@ -21,19 +21,12 @@ class TransactionsScreen extends StatelessWidget {
                   fontStyle: FontStyle.italic
               ),
             ),
-            const SizedBox(height: 15),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: Colors.white),
-              width: MediaQuery.of(context).size.width,
-              height: (MediaQuery.of(context).size.width) * 0.5,
-              child: const PieChartStat(),
-            ),
-            const SizedBox(
+            SizedBox(height: 15),
+           PieChartStat(),
+            SizedBox(
               height: 12,
             ),
-            const TransactionsList()
+            TransactionsList()
           ],
         ),
       ),
