@@ -5,8 +5,8 @@ Wallet tracker created for tracking your expenses using flutter.
 ## Result
 
 ### UI
-| ![login](assets/images/Screenshot_20240805_131355.png) | ![signup](assets/images/Screenshot_20240805_131408.png) | ![home](assets/images/Screenshot_20240804_225428.png) | ![home](assets/images/Screenshot_20240804_225455.png) | ![addexpense](assets/images/Screenshot_20240804_225512.png)| 
-![addincome](assets/images/Screenshot_20240804_225530.png)
+| ![login](assets/images/login_walletwiz.png) | ![signup](assets/images/signup_walletwiz.png) | ![home](assets/images/home_walletwiz.png) | ![stats](assets/images/stats_walletwiz.png) | ![addexpense](assets/images/expense_walletwiz.png)| 
+![addincome](assets/images/income_walletwiz.png)
 |----------|:----------:|:--------:|:---------:|:---------:|
 
 
